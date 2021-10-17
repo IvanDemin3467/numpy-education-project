@@ -120,3 +120,104 @@ print(b.cumsum(axis=1))  # cumulative sum along each row
 """array([[ 0,  1,  3,  6],
        [ 4,  9, 15, 22],
        [ 8, 17, 27, 38]])"""
+
+# Universal functions
+"""NumPy provides familiar mathematical functions such as sin, cos, and exp. In NumPy, these are called “universal 
+functions” (ufunc). Within NumPy, these functions operate elementwise on an array, producing an array as output."""
+print("\nUniversal functions\n")
+
+B = np.arange(3)
+print(B)  # array([0, 1, 2])
+print(np.exp(B))  # array([1.        , 2.71828183, 7.3890561 ])
+print(np.sqrt(B))  # array([0.        , 1.        , 1.41421356])
+C = np.array([2., -1., 4.])
+print(np.add(B, C))  # array([2., 0., 6.])
+
+# Indexing, Slicing and Iterating
+"""One-dimensional arrays can be indexed, sliced and iterated over, much like lists and other Python sequences."""
+print("\nIndexing, Slicing and Iterating\n")
+
+a = np.arange(10)**3
+print(a)  # array([  0,   1,   8,  27,  64, 125, 216, 343, 512, 729])
+print(a[2])  # Get by index: 8
+print(a[2:5])  # Get slice : array([ 8, 27, 64])
+# equivalent to a[0:6:2] = 1000;
+# from start to position 6, exclusive, set every 2nd element to 1000
+a[:6:2] = 1000
+print(a)  # array([1000,    1, 1000,   27, 1000,  125,  216,  343,  512,  729])
+print(a[::-1])  # reversed a: array([ 729,  512,  343,  216,  125, 1000,   27, 1000,    1, 1000])
+for i in a:
+    print(i**(1 / 3.))
+
+"""9.999999999999998
+1.0
+9.999999999999998
+3.0
+9.999999999999998
+4.999999999999999
+5.999999999999999
+6.999999999999999
+7.999999999999999
+8.999999999999998"""
+
+# Indices
+"""Multidimensional arrays can have one index per axis. These indices are given in a tuple separated by commas:"""
+print("\nIndices\n")
+
+
+def f(x, y):
+    return 10 * x + y  # Will it use as lambda function
+
+
+b = np.fromfunction(f, (5, 4), dtype=int)  # Construct an array by indexing the function
+print(b)
+"""array([[ 0,  1,  2,  3],
+       [10, 11, 12, 13],
+       [20, 21, 22, 23],
+       [30, 31, 32, 33],
+       [40, 41, 42, 43]])"""
+print(b[2, 3])  # 23
+print(b[0:5, 1])  # each row in the second column of b: array([ 1, 11, 21, 31, 41])
+print(b[:, 1])    # equivalent to the previous example: array([ 1, 11, 21, 31, 41])
+print(b[1:3, :])  # each column in the second and third row of b
+"""array([[10, 11, 12, 13],
+       [20, 21, 22, 23]])"""
+
+# Autocompletion
+"""When fewer indices are provided than the number of axes, the missing indices are considered complete slices:"""
+print("\nAutocompletion\n")
+
+print(b[-1])   # the last row. Equivalent to b[-1, :] : array([40, 41, 42, 43])
+
+"""The dots (...) represent as many colons as needed to produce a complete indexing tuple"""
+c = np.array([[[  0,  1,  2],  # a 3D array (two stacked 2D arrays)
+               [ 10, 12, 13]],
+              [[100, 101, 102],
+               [110, 112, 113]]])
+print(c.shape)  # (2, 2, 3)
+print(c[1, ...])  # same as c[1, :, :] or c[1]
+"""array([[100, 101, 102],
+       [110, 112, 113]])"""
+print(c[..., 2])  # same as c[:, :, 2]:
+"""array([[  2,  13],
+       [102, 113]])"""
+
+# Iterating over multidimensional arrays is done with respect to the first axis:
+print("\nIterating over multidimensional arrays\n")
+
+for row in b:
+    print(row)
+
+"""[0 1 2 3]
+[10 11 12 13]
+[20 21 22 23]
+[30 31 32 33]
+[40 41 42 43]"""
+
+# However, if one wants to perform an operation on each element in the array,
+# one can use the flat attribute which is an iterator over all the elements of the array:
+
+for element in b.flat:
+    print(element)  # 0  1  2  3
+
+
